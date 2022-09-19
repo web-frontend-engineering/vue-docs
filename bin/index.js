@@ -33,7 +33,7 @@ let config = {
   exclude: [],
   output: ""
 }
-let configFilePath = path.resolve("./vuedoc.config.js")
+let configFilePath = path.resolve("./vuedocs.config.js")
 
 fs.access(configFilePath, function (err) {
   if (err && err.code == "ENOENT") {
