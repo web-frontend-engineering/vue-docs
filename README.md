@@ -5,7 +5,7 @@
 第一步：安装
 
 ```
-npm install vuedocs -g
+npm install @zengbin/vuedocs -g
 ```
 
 第二步：在项目根目录配置`vuedocs.config.js`文件
