@@ -6,7 +6,7 @@ const {parse} = require('@vue/compiler-sfc')
 const {parser} = require('./parser')
 const {RenderMd} = require("./render")
 
-let defaultMarkDown =
+const defaultMarkDown =
   `### &lt;<!-- name:start --><!-- name:end -->/&gt;
 
 <!-- desc:start -->
@@ -31,7 +31,7 @@ let defaultMarkDown =
 let config = {
   include: [],
   exclude: [],
-  output: ""
+  output: "docs"
 }
 let configFilePath = path.resolve("./vuedocs.config.js")
 
@@ -62,7 +62,7 @@ function start(config) {
       let info = parser(parse(data))
       // console.log('info:', info)
 
-      fs.readFile(`./docs/${fileName}.md`, 'utf-8', (err, data) => {
+      fs.readFile(`./${output}/${fileName}.md`, 'utf-8', (err, data) => {
         // console.log(err, data)
         let lines = []
         if (err) {
