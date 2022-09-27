@@ -6,33 +6,14 @@ const {parse} = require('@vue/compiler-sfc')
 const {parser} = require('./parser')
 const {RenderMd} = require("./render")
 
-const defaultMarkDown =
-  `### &lt;<!-- name:start --><!-- name:end -->/&gt;
-
-<!-- desc:start -->
-<!-- desc:end -->
-
-### Props
-<!-- props:start -->
-<!-- props:end -->
-
-### Methods
-<!-- methods:start -->
-<!-- methods:end -->
-
-### Events
-<!-- events:start -->
-<!-- events:end -->
-
-### Slots
-<!-- slots:start -->
-<!-- slots:end -->`
+const defaultMarkDown = fs.readFileSync(path.resolve(__dirname, `./template.md`), 'utf-8')
 
 let config = {
   include: [],
   exclude: [],
   output: "docs"
 }
+
 let configFilePath = path.resolve("./vuedocs.config.js")
 
 fs.access(configFilePath, function (err) {
@@ -45,13 +26,14 @@ fs.access(configFilePath, function (err) {
   start(Object.assign(config, userConfig))
 })
 
+
 function start(config) {
   // console.log("config:", config)
   let {include, output} = config
 
   include.forEach(filePath => {
     let fileName = path.basename(filePath, path.extname(filePath))
-    console.log("file -> ", filePath, fileName)
+    console.log("file -> ", filePath)
 
     fs.readFile(filePath, 'utf8', (err, data) => {
       if (err) {
@@ -79,8 +61,15 @@ function start(config) {
           slots: {name: 'name', desc: '说明'}
         }).render(lines)
 
-        fs.writeFile(`./${output}/${fileName}.md`, text, () => {
+        var targetFile = path.resolve(`${output || '.'}/${fileName}.md`)
 
+        if (!fs.existsSync(path.dirname(targetFile))) {
+          fs.mkdirSync(path.dirname(targetFile))
+        }
+
+        fs.writeFile(targetFile, text, (err) => {
+          if (err)
+            return console.log(err)
         })
       })
     })
