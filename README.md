@@ -14,7 +14,7 @@ npm install @zengbin/vuedocs -g
 module.exports = {
   // 需要解析文件
   include: [
-    "components/non-business/basics/c-button.vue",
+    "components/c-button.vue",
   ],
   // 生成文档的目录
   output: "docs"
